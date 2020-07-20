@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo
+       http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+<!--    声明dubbo服务提供者的name-->
+    <dubbo:application name="009-dubbo-userservice-multi-provider"/>
+
+    <!--    dubbo协议和端口号-->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+<!--    注册中心-->
+    <dubbo:registry address="zookeeper://120.79.69.241:2181"/>
+
+
+<!--不管是否一个接口有多个实现类，只要服务提供者服务接口服务的时候指定了版本号，那作为消费者引用远程接口时就
+    一定要指定版本号
+-->
+    <dubbo:service interface="com.learn.dubbo.service.UserService" ref="userService1" version="1.0.0"/>
+    <dubbo:service interface="com.learn.dubbo.service.UserService" ref="userService2" version="2.0.0"/>
+
+    <bean id="userSerivce1" class="com.learn.dubbo.service.impl.UserServiceImpl"/>
+    <bean id="userSerivce2" class="com.learn.dubbo.service.impl.UserServiceImpl2"/>
+</beans>
